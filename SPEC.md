@@ -1,7 +1,7 @@
 # Finity v1 Specification
 
 Finity v1 has three features: a **finite digest**, an **inspiration shelf** and a
-**weekend radar**. Every decision here follows [MANIFESTO.md](MANIFESTO.md).
+**weekend radar**.
 
 ## Platform
 

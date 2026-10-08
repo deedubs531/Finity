@@ -1,6 +1,6 @@
 # Finity
 
-A calm, finite alternative to endless feeds, built on the [manifesto](MANIFESTO.md).
+A calm, finite alternative to endless feeds.
 Full details are in the [v1 spec](SPEC.md).
 
 - **Digest:** posts from Bluesky accounts and RSS feeds you choose. Chronological, no counts,
