@@ -174,6 +174,64 @@ function relaySection(settings: Settings): HTMLElement {
   );
 }
 
+export const INSTAGRAM_FOLLOWING = 'https://www.instagram.com/?variant=following';
+
+function instagramSection(): HTMLElement {
+  const scriptUrl = new URL('finity-instagram.user.js', location.href).toString();
+  const copy = h(
+    'button',
+    {
+      class: 'button secondary',
+      type: 'button',
+      onclick: async () => {
+        await navigator.clipboard.writeText(scriptUrl);
+        copy.textContent = 'Copied';
+        toast('Install link copied. Paste it into Safari.');
+      },
+    },
+    'Copy install link',
+  );
+  return h(
+    'div',
+    { class: 'setting', id: 'instagram' },
+    h('h3', {}, 'Instagram, the calm way'),
+    h(
+      'p',
+      { class: 'hint' },
+      'Use real Instagram in Safari with Finity on top: only your Following feed, no Reels, Explore, suggestions, ads or like counts, a daily time limit, and buttons to save posts to your Shelf or add events to your Radar.',
+    ),
+    h(
+      'details',
+      { class: 'tip', open: true },
+      h('summary', {}, 'Set it up (once, about 5 minutes)'),
+      h(
+        'ol',
+        { class: 'steps' },
+        h('li', {}, 'Install the free app ', h('strong', {}, 'Userscripts'), ' from the App Store and open it once. When it asks for a folder, keep the suggested one.'),
+        h('li', {}, 'Open the iPhone Settings app → Apps → Safari → Extensions → Userscripts. Turn it on and allow it on instagram.com (or All Websites).'),
+        h('li', {}, 'Tap ', h('strong', {}, 'Copy install link'), ' below, open Safari, paste it into the address bar and go.'),
+        h('li', {}, 'Tap the extensions button in the address bar (the puzzle piece or ', h('strong', {}, 'aA'), ') → Userscripts → Install.'),
+        h('li', {}, 'Open instagram.com in Safari and log in. Tap the round F button for limits and options.'),
+      ),
+      h('div', { class: 'actions' }, copy, h('a', { class: 'button secondary', href: INSTAGRAM_FOLLOWING, target: '_blank', rel: 'noopener' }, 'Open Instagram')),
+    ),
+    h(
+      'details',
+      { class: 'tip' },
+      h('summary', {}, 'Make the Instagram app open the calm version'),
+      h(
+        'ol',
+        { class: 'steps' },
+        h('li', {}, 'Open the Shortcuts app → Automation → + → App.'),
+        h('li', {}, 'Choose Instagram, tick Is Opened, choose Run Immediately, then Next.'),
+        h('li', {}, 'New Blank Automation → add the action Open URLs → enter ', h('strong', {}, INSTAGRAM_FOLLOWING), ' → Done.'),
+      ),
+      h('p', { class: 'hint' }, 'Now tapping Instagram jumps to the calm version in Safari. Messages and posting work there too. To use the app itself, switch the automation off in Shortcuts.'),
+    ),
+    h('p', { class: 'hint' }, 'Saved posts wait in Instagram until you tap Send to Finity, then Save copied item in your Shelf. If Instagram changes its website, parts may stop working until the script is updated; it updates itself.'),
+  );
+}
+
 /** Shown on hosts without the relay (e.g. GitHub Pages). */
 function noRelayNote(): HTMLElement {
   return h(
@@ -305,6 +363,7 @@ export async function renderSettings(root: HTMLElement): Promise<void> {
       h('p', { class: 'hint' }, 'Bring over the accounts you follow. Finity picks the active ones that are also on Bluesky.'),
       h('a', { class: 'button', href: '#/import' }, 'Import my follows'),
     ),
+    instagramSection(),
     h('h2', { class: 'section-head' }, 'Digest'),
     listEditor({
       key: 'blueskyHandles',
@@ -338,5 +397,6 @@ export async function renderSettings(root: HTMLElement): Promise<void> {
     h('p', { class: 'colophon' }, 'Finity: no ads, no tracking, no infinite scroll. Does this help you live your life, or keep you inside the app?'),
   );
 
-  if (location.hash.includes('section=shortcut')) document.getElementById('shortcut')?.scrollIntoView();
+  const section = location.hash.match(/section=(\w+)/)?.[1];
+  if (section) document.getElementById(section)?.scrollIntoView();
 }

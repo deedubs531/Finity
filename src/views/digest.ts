@@ -7,6 +7,7 @@ import { loadSettings } from '../settings';
 import { fromDigest, isSaved, saveShelfItem } from '../shelf';
 import type { DigestItem, SourceError } from '../types';
 import { h, relativeTime, toast } from '../util';
+import { INSTAGRAM_FOLLOWING } from './settings';
 import { emptyState, errorList, externalLink, fill, image } from './common';
 
 /** Opening the digest fetches new items if the last fetch was longer ago than this. */
@@ -127,6 +128,7 @@ export async function renderDigest(root: HTMLElement): Promise<() => void> {
         h('p', { class: 'fleuron', 'aria-hidden': 'true' }, '❧'),
         h('h2', {}, "You're caught up"),
         h('p', {}, items.length ? "That's everything new from your sources." : 'Nothing new since you last looked.'),
+        h('p', { class: 'alternatives' }, h('a', { href: INSTAGRAM_FOLLOWING, target: '_blank', rel: 'noopener' }, 'Check Instagram, the calm way'), ' (opens in Safari)'),
       ),
     );
 

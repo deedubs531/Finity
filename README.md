@@ -15,6 +15,11 @@ Full details are in the [v1 spec](SPEC.md).
   find which of those accounts are on Bluesky, and add the active ones automatically (venues and
   events to the radar, people to the digest; shops and quiet accounts left out). Undo anytime.
 
+- **Instagram, the calm way:** a Safari userscript (`public/finity-instagram.user.js`, installed
+  with the free Userscripts app) that shows instagram.com as your Following feed only, without
+  Reels, Explore, suggestions, ads or like counts, with a daily time limit and buttons to send posts
+  to your Shelf and events to your Radar. Setup steps are in Finity's Settings.
+
 Everything you save stays on your phone. No accounts, ads or tracking.
 
 ## Put it on your iPhone

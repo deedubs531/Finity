@@ -1,4 +1,5 @@
-import { fromClipboard, removeShelfItem, saveShelfItem, shelfItems } from '../shelf';
+import * as db from '../db';
+import { fromClipboard, fromFinityPayload, removeShelfItem, saveShelfItem, shelfItems } from '../shelf';
 import type { ShelfItem } from '../types';
 import { h, hostOf, toast, truncate } from '../util';
 import { emptyState, externalLink, fill, image, openDialog } from './common';
@@ -64,6 +65,20 @@ async function saveFromClipboard(redraw: () => void): Promise<void> {
     toast("Finity couldn't read the clipboard. Allow it when iOS asks.");
     return;
   }
+  // A batch sent from Finity for Instagram: posts go to the shelf, events to the radar.
+  const batch = fromFinityPayload(text);
+  if (batch) {
+    for (const item of batch.shelf) await saveShelfItem(item);
+    for (const event of batch.events) await db.put('events', event);
+    const parts = [
+      batch.shelf.length && `${batch.shelf.length} to your shelf`,
+      batch.events.length && `${batch.events.length} to your radar`,
+    ].filter(Boolean);
+    toast(parts.length ? `Saved ${parts.join(' and ')}` : 'Nothing to save in that batch.');
+    await navigator.clipboard.writeText('').catch(() => {});
+    redraw();
+    return;
+  }
   const item = fromClipboard(text);
   if (!item) {
     toast('The clipboard is empty.');
@@ -82,7 +97,7 @@ export async function renderShelf(root: HTMLElement): Promise<void> {
         'div',
         { class: 'toolbar' },
         h('button', { class: 'button', type: 'button', onclick: () => void saveFromClipboard(draw) }, 'Save copied item'),
-        h('a', { class: 'plain', href: '#/settings?section=shortcut' }, 'Share from other apps'),
+        h('a', { class: 'plain', href: '#/settings?section=instagram' }, 'Save from Instagram'),
       ),
       items.length
         ? h('div', { class: 'grid' }, items.map((item) => card(item, () => openItem(item, draw))))
