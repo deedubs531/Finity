@@ -1,0 +1,14 @@
+// Cloudflare Worker config: one Worker serves the app (dist/) and the feed relay (/relay).
+// Set the relay secret with:  npx wrangler secret put FINITY_TOKEN
+{
+  "name": "finity",
+  "main": "relay/worker.ts",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/relay"]
+  },
+  "observability": { "enabled": false }
+}

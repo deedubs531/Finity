@@ -1,0 +1,23 @@
+{
+  "name": "finity",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "A calm, finite alternative to endless feeds: digest, inspiration shelf and weekend radar.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "ical.js": "^2.2.1"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.3",
+    "vitest": "^5.0.3"
+  }
+}
