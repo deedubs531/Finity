@@ -4,6 +4,7 @@ import { renderDigest } from './views/digest';
 import { renderShelf } from './views/shelf';
 import { renderRadar } from './views/radar';
 import { renderSettings } from './views/settings';
+import { renderImport } from './views/import';
 
 type Cleanup = () => void;
 type View = (root: HTMLElement) => Promise<Cleanup | void>;
@@ -13,6 +14,7 @@ const VIEWS: Record<string, { title: string; render: View }> = {
   shelf: { title: 'Shelf', render: renderShelf },
   radar: { title: 'Radar', render: renderRadar },
   settings: { title: 'Settings', render: renderSettings },
+  import: { title: 'Import', render: renderImport },
 };
 
 const TABS = ['digest', 'shelf', 'radar'] as const;

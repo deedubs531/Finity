@@ -11,6 +11,10 @@ Full details are in the [v1 spec](SPEC.md).
   venue's calendar, feed or Bluesky account from its website and name, handy for places you
   follow on Instagram.
 
+- **Import from Instagram:** read the following list from your own Instagram data download,
+  find which of those accounts are on Bluesky, and add the active ones automatically (venues and
+  events to the radar, people to the digest; shops and quiet accounts left out). Undo anytime.
+
 Everything you save stays on your phone. No accounts, ads or tracking.
 
 ## Put it on your iPhone

@@ -5,7 +5,7 @@ import { fetchBluesky } from './sources/bluesky';
 import { fetchFeedText } from './sources/relay';
 import { parseFeed } from './sources/rss';
 import type { DigestItem, SourceError } from './types';
-import { truncate } from './util';
+import { mapLimit, truncate } from './util';
 
 /** Only items from the last few days make it in, so a week away doesn't become a backlog. */
 export const LOOKBACK_MS = 3 * 24 * 60 * 60 * 1000;
@@ -48,7 +48,13 @@ export async function refreshDigest(settings: Settings): Promise<SourceError[]> 
     ...settings.blueskyHandles.map((h) => ({ source: h, run: () => fetchBluesky(h, settings.showReplies) })),
     ...feeds.map((f) => ({ source: f, run: () => fetchRss(f, settings.relayToken, now) })),
   ];
-  const results = await Promise.allSettled(jobs.map((j) => j.run()));
+  // A few at a time, so a long list of accounts doesn't trip Bluesky's rate limits.
+  const results = await mapLimit(jobs, 6, (j) =>
+    j.run().then(
+      (value): PromiseSettledResult<DigestItem[]> => ({ status: 'fulfilled', value }),
+      (reason): PromiseSettledResult<DigestItem[]> => ({ status: 'rejected', reason }),
+    ),
+  );
   const errors: SourceError[] = [];
   const fresh: DigestItem[] = [];
   results.forEach((r, i) => {

@@ -95,12 +95,14 @@ export async function renderDigest(root: HTMLElement): Promise<() => void> {
 
     const relay = await hasRelay();
     if (!settings.blueskyHandles.length && !(relay && settings.feeds.length)) {
-      const what = relay ? 'a few Bluesky accounts or RSS feeds' : 'a few Bluesky accounts';
-      fill(root, 
-        emptyState('Your digest is empty', `Add ${what} you care about. Finity shows only what they post, newest first, and then stops.`, {
-          label: 'Add sources',
-          href: '#/settings',
+      const what = relay ? 'Bluesky accounts or RSS feeds' : 'Bluesky accounts';
+      fill(
+        root,
+        emptyState('Your digest is empty', `Bring over the accounts you follow on Instagram, or add ${what} yourself. Finity shows only what they post, newest first, and then stops.`, {
+          label: 'Import from Instagram',
+          href: '#/import',
         }),
+        h('p', { class: 'center' }, h('a', { href: '#/settings' }, 'Or add accounts yourself')),
       );
       return;
     }

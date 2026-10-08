@@ -669,3 +669,38 @@ input[type='checkbox'] {
   color: var(--accent);
   font-weight: 600;
 }
+
+/* Instagram import */
+
+.import-intro,
+.import-summary {
+  padding: 1.25rem 0 0.5rem;
+}
+
+.import-intro h2,
+.import-summary h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+}
+
+.import-summary .actions {
+  margin: 1rem 0 0.5rem;
+}
+
+.how-to summary,
+details.setting > summary {
+  cursor: pointer;
+  font-family: var(--sans);
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.how-to .steps {
+  margin-top: 0.75rem;
+}
+
+.center {
+  text-align: center;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+}

@@ -110,3 +110,18 @@ export function toast(message: string): void {
   document.body.append(el);
   setTimeout(() => el.remove(), 2600);
 }
+
+/** Runs `fn` over `items` with at most `limit` running at once, keeping order. */
+export async function mapLimit<T, R>(items: T[], limit: number, fn: (item: T) => Promise<R>, onDone: () => void = () => {}): Promise<R[]> {
+  const out: R[] = new Array(items.length);
+  let next = 0;
+  async function worker(): Promise<void> {
+    while (next < items.length) {
+      const i = next++;
+      out[i] = await fn(items[i]);
+      onDone();
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
+  return out;
+}

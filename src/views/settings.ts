@@ -298,6 +298,13 @@ export async function renderSettings(root: HTMLElement): Promise<void> {
     : null;
 
   fill(root, 
+    h(
+      'div',
+      { class: 'setting import-cta' },
+      h('h3', {}, 'Import from Instagram'),
+      h('p', { class: 'hint' }, 'Bring over the accounts you follow. Finity picks the active ones that are also on Bluesky.'),
+      h('a', { class: 'button', href: '#/import' }, 'Import my follows'),
+    ),
     h('h2', { class: 'section-head' }, 'Digest'),
     listEditor({
       key: 'blueskyHandles',
